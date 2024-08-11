@@ -1,10 +1,9 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-from google.colab.patches import cv2_imshow
 
 # Step 1: Load the image and convert it to grayscale
-image = cv2.imread('/content/output_plot2.png')
+image = cv2.imread('output_plot2.png')
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 # Step 2: Apply Gaussian Blur to reduce noise
@@ -37,7 +36,7 @@ cv2.drawContours(rectified_canvas, rectified_contours, -1, (255, 255, 255), thic
 # Step 7: Convert the rectified canvas to RGB for display
 rectified_canvas_rgb = cv2.cvtColor(rectified_canvas, cv2.COLOR_BGR2RGB)
 
-# Step 8: Display the original image and the rectified result side by side
+# Step 8: Display the original image and the rectified result side by side using Matplotlib
 fig, axs = plt.subplots(1, 2, figsize=(12, 6))
 
 axs[0].imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
@@ -66,7 +65,8 @@ cv2.line(img_symmetry, (0, gray.shape[0]//2), (gray.shape[1], gray.shape[0]//2),
 cv2.line(img_symmetry, (gray.shape[1]//2, 0), (gray.shape[1]//2, gray.shape[0]), (0, 255, 0), 2)  # Vertical line
 
 # Step 12: Display the final image with symmetry lines
-cv2_imshow(img_symmetry)          # Display the image with the symmetry lines
+cv2.imshow('Symmetry Lines', img_symmetry)
+cv2.waitKey(0)
 
 # Step 13: Analyze and visualize individual shape symmetry (both horizontal and vertical)
 for i, contour in enumerate(rectified_contours):
@@ -91,8 +91,12 @@ for i, contour in enumerate(rectified_contours):
     cv2.line(combined_roi_v, (w, 0), (w, h), (255, 0, 0), 1)  # Vertical axis
 
     # Display the results for each shape
-    cv2_imshow(combined_roi_h)  # Horizontal symmetry visualization
-    cv2_imshow(combined_roi_v)  # Vertical symmetry visualization
+    cv2.imshow(f'Horizontal Symmetry {i}', combined_roi_h)
+    cv2.waitKey(0)
+    cv2.imshow(f'Vertical Symmetry {i}', combined_roi_v)
+    cv2.waitKey(0)
 
 # Step 14: Display the final rectified shapes
-cv2_imshow(rectified_canvas_rgb)
+cv2.imshow('Rectified Shapes', rectified_canvas_rgb)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
